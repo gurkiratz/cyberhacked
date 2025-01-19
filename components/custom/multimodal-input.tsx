@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
-import { motion } from "framer-motion";
+import { Attachment, ChatRequestOptions, CreateMessage, Message } from 'ai'
+import { motion } from 'framer-motion'
 import React, {
   useRef,
   useEffect,
@@ -10,27 +10,27 @@ import React, {
   Dispatch,
   SetStateAction,
   ChangeEvent,
-} from "react";
-import { toast } from "sonner";
+} from 'react'
+import { toast } from 'sonner'
 
-import { ArrowUpIcon, PaperclipIcon, StopIcon } from "./icons";
-import { PreviewAttachment } from "./preview-attachment";
-import useWindowSize from "./use-window-size";
-import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
+import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons'
+import { PreviewAttachment } from './preview-attachment'
+import useWindowSize from './use-window-size'
+import { Button } from '../ui/button'
+import { Textarea } from '../ui/textarea'
 
 const suggestedActions = [
   {
-    title: "Help me book a flight",
-    label: "from San Francisco to London",
-    action: "Help me book a flight from San Francisco to London",
+    title: 'Help me book a flight',
+    label: 'from San Francisco to London',
+    action: 'Help me book a flight from San Francisco to London',
   },
   {
-    title: "What is the status",
-    label: "of flight BA142 flying tmrw?",
-    action: "What is the status of flight BA142 flying tmrw?",
+    title: 'What is the status',
+    label: 'of flight BA142 flying tmrw?',
+    action: 'What is the status of flight BA142 flying tmrw?',
   },
-];
+]
 
 export function MultimodalInput({
   input,
@@ -43,113 +43,115 @@ export function MultimodalInput({
   append,
   handleSubmit,
 }: {
-  input: string;
-  setInput: (value: string) => void;
-  isLoading: boolean;
-  stop: () => void;
-  attachments: Array<Attachment>;
-  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
-  messages: Array<Message>;
+  input: string
+  setInput: (value: string) => void
+  isLoading: boolean
+  stop: () => void
+  attachments: Array<Attachment>
+  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>
+  messages: Array<Message>
   append: (
     message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+    chatRequestOptions?: ChatRequestOptions
+  ) => Promise<string | null | undefined>
   handleSubmit: (
     event?: {
-      preventDefault?: () => void;
+      preventDefault?: () => void
     },
-    chatRequestOptions?: ChatRequestOptions,
-  ) => void;
+    chatRequestOptions?: ChatRequestOptions
+  ) => void
 }) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { width } = useWindowSize();
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const { width } = useWindowSize()
 
   useEffect(() => {
     if (textareaRef.current) {
-      adjustHeight();
+      adjustHeight()
     }
-  }, []);
+  }, [])
 
   const adjustHeight = () => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 0}px`;
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${
+        textareaRef.current.scrollHeight + 0
+      }px`
     }
-  };
+  }
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(event.target.value);
-    adjustHeight();
-  };
+    setInput(event.target.value)
+    adjustHeight()
+  }
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [uploadQueue, setUploadQueue] = useState<Array<string>>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [uploadQueue, setUploadQueue] = useState<Array<string>>([])
 
   const submitForm = useCallback(() => {
     handleSubmit(undefined, {
       experimental_attachments: attachments,
-    });
+    })
 
-    setAttachments([]);
+    setAttachments([])
 
     if (width && width > 768) {
-      textareaRef.current?.focus();
+      textareaRef.current?.focus()
     }
-  }, [attachments, handleSubmit, setAttachments, width]);
+  }, [attachments, handleSubmit, setAttachments, width])
 
   const uploadFile = async (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
+    const formData = new FormData()
+    formData.append('file', file)
 
     try {
       const response = await fetch(`/api/files/upload`, {
-        method: "POST",
+        method: 'POST',
         body: formData,
-      });
+      })
 
       if (response.ok) {
-        const data = await response.json();
-        const { url, pathname, contentType } = data;
+        const data = await response.json()
+        const { url, pathname, contentType } = data
 
         return {
           url,
           name: pathname,
           contentType: contentType,
-        };
+        }
       } else {
-        const { error } = await response.json();
-        toast.error(error);
+        const { error } = await response.json()
+        toast.error(error)
       }
     } catch (error) {
-      toast.error("Failed to upload file, please try again!");
+      toast.error('Failed to upload file, please try again!')
     }
-  };
+  }
 
   const handleFileChange = useCallback(
     async (event: ChangeEvent<HTMLInputElement>) => {
-      const files = Array.from(event.target.files || []);
+      const files = Array.from(event.target.files || [])
 
-      setUploadQueue(files.map((file) => file.name));
+      setUploadQueue(files.map((file) => file.name))
 
       try {
-        const uploadPromises = files.map((file) => uploadFile(file));
-        const uploadedAttachments = await Promise.all(uploadPromises);
+        const uploadPromises = files.map((file) => uploadFile(file))
+        const uploadedAttachments = await Promise.all(uploadPromises)
         const successfullyUploadedAttachments = uploadedAttachments.filter(
-          (attachment) => attachment !== undefined,
-        );
+          (attachment) => attachment !== undefined
+        )
 
         setAttachments((currentAttachments) => [
           ...currentAttachments,
           ...successfullyUploadedAttachments,
-        ]);
+        ])
       } catch (error) {
-        console.error("Error uploading files!", error);
+        console.error('Error uploading files!', error)
       } finally {
-        setUploadQueue([]);
+        setUploadQueue([])
       }
     },
-    [setAttachments],
-  );
+    [setAttachments]
+  )
 
   return (
     <div className="relative w-full flex flex-col gap-4">
@@ -164,14 +166,14 @@ export function MultimodalInput({
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: 0.05 * index }}
                 key={index}
-                className={index > 1 ? "hidden sm:block" : "block"}
+                className={index > 1 ? 'hidden sm:block' : 'block'}
               >
                 <button
                   onClick={async () => {
                     append({
-                      role: "user",
+                      role: 'user',
                       content: suggestedAction.action,
-                    });
+                    })
                   }}
                   className="border-none bg-muted/50 w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 rounded-lg p-3 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col"
                 >
@@ -204,9 +206,9 @@ export function MultimodalInput({
             <PreviewAttachment
               key={filename}
               attachment={{
-                url: "",
+                url: '',
                 name: filename,
-                contentType: "",
+                contentType: '',
               }}
               isUploading={true}
             />
@@ -222,13 +224,13 @@ export function MultimodalInput({
         className="min-h-[24px] overflow-hidden resize-none rounded-lg text-base bg-muted border-none"
         rows={3}
         onKeyDown={(event) => {
-          if (event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault();
+          if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault()
 
             if (isLoading) {
-              toast.error("Please wait for the model to finish its response!");
+              toast.error('Please wait for the model to finish its response!')
             } else {
-              submitForm();
+              submitForm()
             }
           }
         }}
@@ -238,8 +240,8 @@ export function MultimodalInput({
         <Button
           className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5 text-white"
           onClick={(event) => {
-            event.preventDefault();
-            stop();
+            event.preventDefault()
+            stop()
           }}
         >
           <StopIcon size={14} />
@@ -248,8 +250,8 @@ export function MultimodalInput({
         <Button
           className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5 text-white"
           onClick={(event) => {
-            event.preventDefault();
-            submitForm();
+            event.preventDefault()
+            submitForm()
           }}
           disabled={input.length === 0 || uploadQueue.length > 0}
         >
@@ -257,17 +259,17 @@ export function MultimodalInput({
         </Button>
       )}
 
-      <Button
+      {/* <Button
         className="rounded-full p-1.5 h-fit absolute bottom-2 right-10 m-0.5 dark:border-zinc-700"
         onClick={(event) => {
-          event.preventDefault();
-          fileInputRef.current?.click();
+          event.preventDefault()
+          fileInputRef.current?.click()
         }}
         variant="outline"
         disabled={isLoading}
       >
         <PaperclipIcon size={14} />
-      </Button>
+      </Button> */}
     </div>
-  );
+  )
 }

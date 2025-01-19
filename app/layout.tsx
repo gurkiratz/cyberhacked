@@ -1,21 +1,22 @@
-import { Metadata } from "next";
-import { Toaster } from "sonner";
+import { Metadata } from 'next'
+import { Toaster } from 'sonner'
 
-import { Navbar } from "@/components/custom/navbar";
-import { ThemeProvider } from "@/components/custom/theme-provider";
+import { Navbar } from '@/components/custom/navbar'
+import { ThemeProvider } from '@/components/custom/theme-provider'
 
-import "./globals.css";
+import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gemini.vercel.ai"),
-  title: "Next.js Gemini Chatbot",
-  description: "Next.js chatbot template using the AI SDK and Gemini.",
-};
+  metadataBase: new URL('https://gemini.vercel.ai'),
+  title: 'Cyberhacked',
+  description:
+    'Test your cybersecurity skills against a simulated hacker in CyberHacked.',
+}
 
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
@@ -32,5 +33,5 @@ export default async function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

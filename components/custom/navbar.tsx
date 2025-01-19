@@ -1,21 +1,22 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image'
+import Link from 'next/link'
 
-import { auth, signOut } from "@/app/(auth)/auth";
+import { auth, signOut } from '@/app/(auth)/auth'
 
-import { History } from "./history";
-import { SlashIcon } from "./icons";
-import { ThemeToggle } from "./theme-toggle";
-import { Button } from "../ui/button";
+import { History } from './history'
+import { SlashIcon } from './icons'
+import { ThemeToggle } from './theme-toggle'
+import { Button } from '../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from '../ui/dropdown-menu'
+import { ShieldCheck } from 'lucide-react'
 
 export const Navbar = async () => {
-  let session = await auth();
+  let session = await auth()
 
   return (
     <>
@@ -23,18 +24,22 @@ export const Navbar = async () => {
         <div className="flex flex-row gap-3 items-center">
           <History user={session?.user} />
           <div className="flex flex-row gap-2 items-center">
-            <Image
+            {/* <Image
               src="/images/gemini-logo.png"
               height={20}
               width={20}
               alt="gemini logo"
-            />
-            <div className="text-zinc-500">
+            /> */}
+            <span className="text-xl">👾</span>
+            {/* <div className="text-zinc-500">
               <SlashIcon size={16} />
-            </div>
-            <div className="text-sm dark:text-zinc-300 truncate w-28 md:w-fit">
-              Next.js Gemini Chatbot
-            </div>
+            </div> */}
+            <Link
+              href={'/'}
+              className="text-lg dark:text-zinc-300 w-28 md:w-fit"
+            >
+              cyberhacked.co
+            </Link>
           </div>
         </div>
 
@@ -56,11 +61,11 @@ export const Navbar = async () => {
                 <form
                   className="w-full"
                   action={async () => {
-                    "use server";
+                    'use server'
 
                     await signOut({
-                      redirectTo: "/",
-                    });
+                      redirectTo: '/',
+                    })
                   }}
                 >
                   <button
@@ -80,5 +85,5 @@ export const Navbar = async () => {
         )}
       </div>
     </>
-  );
-};
+  )
+}
