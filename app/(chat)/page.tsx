@@ -33,6 +33,21 @@ const messages: Message[] = [
   {
     id: generateUUID(),
     role: 'user',
+    content: `Scenario: The "Relative" Scam\nDescription: You receive a call or message from someone claiming to be a family member or friend in distress, urgently requesting financial assistance.`,
+  },
+  {
+    id: generateUUID(),
+    role: 'user',
+    content: `Scenario: The "Social Media" Scam\nDescription: You encounter suspicious activity on your social media accounts, such as unauthorized login attempts or requests to connect with unfamiliar accounts.`,
+  },
+  {
+    id: generateUUID(),
+    role: 'user',
+    content: `Scenario: The "Prize Giveaway" Scam\nDescription: You win a "prize" in a contest you don't remember entering. You are instructed to provide personal information or pay a fee to claim your prize.`,
+  },
+  {
+    id: generateUUID(),
+    role: 'user',
     content: `Scenario: The Overly Helpful Tech Support\nDescription: The support unsolicited technical support, claiming to have detected a problem with the user's device, and then attempts to gain remote access or install malicious software.`,
   },
   {
