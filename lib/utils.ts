@@ -145,3 +145,7 @@ export function getScenarioDescription(message: Message) {
   const description = descriptionMatch ? descriptionMatch[1] : 'description'
   return description.split('.')[0] + '.'
 }
+
+export function getRandomMessage(messages: Message[]) {
+  return messages[Math.floor(Math.random() * messages.length)]
+}

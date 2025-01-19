@@ -1,10 +1,12 @@
 import { Chat } from '@/components/custom/chat'
-import { generateUUID } from '@/lib/utils'
+import { generateUUID, getRandomMessage } from '@/lib/utils'
 import { Message } from 'ai'
 
 export default async function Page() {
   const id = generateUUID()
-  return <Chat key={id} id={id} initialMessages={[getRandomMessage()]} />
+  return (
+    <Chat key={id} id={id} initialMessages={[getRandomMessage(messages)]} />
+  )
 }
 
 const messages: Message[] = [
@@ -71,7 +73,3 @@ const messages: Message[] = [
     Description: You are approached by a stranger who claims to have found your wallet. They describe some of the contents of the wallet, such as your drivers license or a specific card. They then ask for your address to return the wallet or request you to verify your identity by providing your date of birth and social security number.`,
   },
 ]
-
-export function getRandomMessage() {
-  return messages[Math.floor(Math.random() * messages.length)]
-}

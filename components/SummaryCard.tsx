@@ -56,8 +56,8 @@ export function SummaryCard({ summary = SAMPLE }: SummaryCardPops) {
         <CardHeader
           className={`${
             isSuccess
-              ? 'bg-green-100 dark:bg-green-800'
-              : 'bg-red-100 dark:bg-red-700'
+              ? 'bg-green-600 dark:bg-green-800'
+              : 'bg-red-500 dark:bg-red-700'
           } rounded-t-lg`}
         >
           <CardTitle className="flex items-center justify-between">
