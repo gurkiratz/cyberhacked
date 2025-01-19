@@ -1,6 +1,6 @@
 'use client'
 
-import { Attachment, ToolInvocation } from 'ai'
+import { Attachment, tool, ToolInvocation } from 'ai'
 import { motion } from 'framer-motion'
 import { ReactNode } from 'react'
 
@@ -15,7 +15,7 @@ import { FlightStatus } from '../flights/flight-status'
 import { ListFlights } from '../flights/list-flights'
 import { SelectSeats } from '../flights/select-seats'
 import { VerifyPayment } from '../flights/verify-payment'
-import { Summary } from '../Summary'
+import { SummaryCard } from '../SummaryCard'
 
 export const Message = ({
   chatId,
@@ -23,12 +23,14 @@ export const Message = ({
   content,
   toolInvocations,
   attachments,
+  handleSummary,
 }: {
   chatId: string
   role: string
   content: string | ReactNode
   toolInvocations: Array<ToolInvocation> | undefined
   attachments?: Array<Attachment>
+  handleSummary?: () => void
 }) => {
   return (
     <motion.div
@@ -52,6 +54,10 @@ export const Message = ({
             {toolInvocations.map((toolInvocation) => {
               const { toolName, toolCallId, state } = toolInvocation
 
+              if (toolName === 'summarize' && handleSummary) {
+                handleSummary()
+              }
+
               if (state === 'result') {
                 const { result } = toolInvocation
 
@@ -60,7 +66,7 @@ export const Message = ({
                     {toolName === 'getWeather' ? (
                       <Weather weatherAtLocation={result} />
                     ) : toolName === 'summarize' ? (
-                      <Summary summary={result} />
+                      <SummaryCard summary={result} />
                     ) : toolName === 'displayFlightStatus' ? (
                       <FlightStatus flightStatus={result} />
                     ) : toolName === 'searchFlights' ? (
@@ -87,6 +93,8 @@ export const Message = ({
                   <div key={toolCallId} className="skeleton">
                     {toolName === 'getWeather' ? (
                       <Weather />
+                    ) : toolName === 'summarize' ? (
+                      <SummaryCard />
                     ) : toolName === 'displayFlightStatus' ? (
                       <FlightStatus />
                     ) : toolName === 'searchFlights' ? (

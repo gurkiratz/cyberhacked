@@ -14,11 +14,18 @@ import { Button } from '../ui/button'
 
 export function Chat({
   id,
-  initialMessages,
+  initialMessages: initialData,
 }: {
   id: string
   initialMessages: Array<Message>
 }) {
+  const [initialMessages] = useState(initialData)
+  const [disabled, setDisabled] = useState(false)
+
+  const handleSummary = () => {
+    setDisabled(true)
+  }
+
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
     useChat({
       id,
@@ -53,7 +60,7 @@ export function Chat({
                   })
                 }}
               >
-                Start
+                Start Interactive Simulation
               </Button>
             </>
           ) : (
@@ -70,7 +77,7 @@ export function Chat({
               /> */}
             </div>
           )}
-          {messages.map((message) => (
+          {messages.slice(2).map((message) => (
             <PreviewMessage
               key={message.id}
               chatId={id}
@@ -78,6 +85,7 @@ export function Chat({
               content={message.content}
               attachments={message.experimental_attachments}
               toolInvocations={message.toolInvocations}
+              handleSummary={handleSummary}
             />
           ))}
 
@@ -89,6 +97,7 @@ export function Chat({
 
         <form className="flex flex-row gap-2 relative items-end w-full md:max-w-[500px] max-w-[calc(100dvw-32px) px-4 md:px-0">
           <MultimodalInput
+            disabled={disabled}
             input={input}
             setInput={setInput}
             handleSubmit={handleSubmit}

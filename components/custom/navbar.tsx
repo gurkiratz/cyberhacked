@@ -76,9 +76,7 @@ export const Navbar = async () => {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Button className="py-1.5 px-2 h-fit font-normal text-white" asChild>
-            <Link href="/login">Login</Link>
-          </Button>
+          <></>
         )}
       </div>
     </>

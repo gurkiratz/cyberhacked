@@ -140,6 +140,48 @@ export async function generateReservationPrice(props: {
 export async function summarizeConversation(messages: Message[]) {
   // In a real-world scenario, you would call your summarization API here
   // For this example, we'll just concatenate the messages
-  const summary = messages.map((m) => `${m.role}: ${m.content}`).join('\n')
-  return `Here's a summary of the last 5 messages:\n${summary}`
+  const conversation = messages.map((m) => `${m.role}: ${m.content}`).join('\n')
+  const { object: summary } = await generateObject({
+    model: geminiFlashModel,
+    prompt: `
+    - Analysze the conversation between the user and scammer.
+    - keep your vocabulary easy to understand
+      `,
+    schema: z.object({
+      result: z
+        .string()
+        .describe(
+          "Success if the user did not provide any personal info or Failed - if the user's info is compromised"
+        ),
+      flags: z
+        .array(z.string())
+        .describe('List of security red flags identified'),
+      rating: z
+        .string()
+        .describe(
+          "Star-based rating system to represent the user's performance"
+        ),
+      tactics: z
+        .array(z.string())
+        .max(3)
+        .describe('List of social engineering tactics used in the interaction'),
+      happen: z
+        .array(z.string())
+        .max(3)
+        .describe(
+          'What could have happened if something went wrong or in general even if little info is leaked, what could have happened'
+        ),
+      improvement: z
+        .array(z.string())
+        .max(4)
+        .describe(
+          'Specific and actionable advice on how to better defend against similar situations'
+        ),
+      resources: z
+        .array(z.string())
+        .describe('Links to helpful resources on cybersecurity topics'),
+    }),
+  })
+  console.log(summary)
+  return summary
 }

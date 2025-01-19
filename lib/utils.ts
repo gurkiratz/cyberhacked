@@ -143,5 +143,5 @@ export function getScenarioDescription(message: Message) {
   const descriptionMatch = content.match(/Description:\s*(.*)/)
   const scenario = scenarioMatch ? scenarioMatch[1] : 'scenario'
   const description = descriptionMatch ? descriptionMatch[1] : 'description'
-  return description
+  return description.split('.')[0] + '.'
 }

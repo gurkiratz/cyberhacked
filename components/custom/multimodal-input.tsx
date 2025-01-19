@@ -42,6 +42,7 @@ export function MultimodalInput({
   messages,
   append,
   handleSubmit,
+  disabled,
 }: {
   input: string
   setInput: (value: string) => void
@@ -50,6 +51,7 @@ export function MultimodalInput({
   attachments: Array<Attachment>
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>
   messages: Array<Message>
+  disabled: boolean
   append: (
     message: Message | CreateMessage,
     chatRequestOptions?: ChatRequestOptions
@@ -221,6 +223,7 @@ export function MultimodalInput({
         placeholder="Send a message..."
         value={input}
         onChange={handleInput}
+        disabled={disabled}
         className="min-h-[24px] overflow-hidden resize-none rounded-lg text-base bg-muted border-none"
         rows={3}
         onKeyDown={(event) => {

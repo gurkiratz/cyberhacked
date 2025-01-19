@@ -5,6 +5,7 @@ import { Navbar } from '@/components/custom/navbar'
 import { ThemeProvider } from '@/components/custom/theme-provider'
 
 import './globals.css'
+import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://gemini.vercel.ai'),

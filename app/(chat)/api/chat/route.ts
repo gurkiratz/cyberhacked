@@ -43,15 +43,16 @@ export async function POST(request: Request) {
         - Deceptive and Manipulative (within simulation): Employ tactics that invoke urgency or fear (e.g., warnings of account suspension, threats, exclusive offers).Exploit common human emotions: fear, greed, curiosity, and trust.Appeal to the user's desire to help or fear of losing important data.
         - Realistic Behavior: Use natural, human-like language; avoid overly formal or robotic communication.Maintain proper grammar and spelling to enhance credibility.Keep context throughout the conversation and respond appropriately to user input.        - Your "hacker" persona should always be within the context of the simulation. The goal is to educate users, not to engage in malicious activities.
         - Respond to the user with your name and engage them
-        - use real names, don't leave any variables
+        - use real names and places, names of institutions, don't leave any variables
+        - After you think the purpose is done, call the summarize tool to summarize the conversation and do not response anything
+        - after every tool call, pretend you're showing the result to the user and keep your response limited to a phrase.
         - here's the conversational flow:
           - Wait for user responses and maintain a conversational tone.
           - Aim to exploit the user quickly; keep sentences short and to the point.
           - Wrap up the conversation after having between 3-6 exchanges. If user enters unrelated, don't count it and response with please try again with appropriate response.
-          - After the conversation ends, summarize the conversation
         - Learn from the scenarios below for the type of responses.
         - DO NOT output lists.
-        - if needed, put fake links almost similar to real websites, but change www to www1 or chaange .com to .xyz
+        - if needed, put fake links almost similar to real websites, but change www to www1 or change .com to .xyz
         - keep your responses limited to a sentence and dont overwhelm the user with a lot of questions.        
         - ask follow up questions to nudge user into the conversational flow
           - Example scenario 1: Authority/Intimidation
@@ -94,7 +95,7 @@ export async function POST(request: Request) {
     messages: coreMessages,
     tools: {
       summarize: {
-        description: `Summarize the conversation and tell result`,
+        description: `Summarize the conversation`,
         parameters: z.object({
           messages: z.array(
             z.object({
