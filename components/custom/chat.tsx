@@ -2,13 +2,15 @@
 
 import { Attachment, Message } from 'ai'
 import { useChat } from 'ai/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Message as PreviewMessage } from '@/components/custom/message'
 import { useScrollToBottom } from '@/components/custom/use-scroll-to-bottom'
 
 import { MultimodalInput } from './multimodal-input'
 import { Overview } from './overview'
+import { getScenarioDescription } from '../../lib/utils'
+import { Button } from '../ui/button'
 
 export function Chat({
   id,
@@ -32,7 +34,6 @@ export function Chat({
     useScrollToBottom<HTMLDivElement>()
 
   const [attachments, setAttachments] = useState<Array<Attachment>>([])
-  console.log(messages[0])
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
       <div className="flex flex-col justify-between items-center gap-4">
@@ -40,9 +41,36 @@ export function Chat({
           ref={messagesContainerRef}
           className="flex flex-col gap-4 h-full w-dvw items-center overflow-y-scroll"
         >
-          {messages.length === 0 && <Overview />}
-
-          {messages.slice(1).map((message) => (
+          {/* <Overview {...messages[0]} /> */}
+          {messages.length <= 1 ? (
+            <>
+              <Overview {...messages[0]} />
+              <Button
+                onClick={() => {
+                  append({
+                    role: 'user',
+                    content: 'Hey',
+                  })
+                }}
+              >
+                Start
+              </Button>
+            </>
+          ) : (
+            <div className="max-w-[500px] mt-20 mx-4 md:mx-0 dark:bg-zinc-500/10 bg-zinc-200/30 rounded p-4">
+              <h3 className="text-lg">Scenario</h3>
+              <p className=" text-xl font-semibold">
+                {getScenarioDescription(messages[0])}
+              </p>
+              {/* <TextGenerateEffect
+                className="italic"
+                words={getScenarioDescription(messages[0])}
+                duration={0.2}
+                filter={false}
+              /> */}
+            </div>
+          )}
+          {messages.map((message) => (
             <PreviewMessage
               key={message.id}
               chatId={id}

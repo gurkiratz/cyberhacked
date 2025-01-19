@@ -136,3 +136,12 @@ export function getTitleFromChat(chat: Chat) {
 
   return firstMessage.content
 }
+
+export function getScenarioDescription(message: Message) {
+  const content = message.content
+  const scenarioMatch = content.match(/Scenario:\s*(.*)/)
+  const descriptionMatch = content.match(/Description:\s*(.*)/)
+  const scenario = scenarioMatch ? scenarioMatch[1] : 'scenario'
+  const description = descriptionMatch ? descriptionMatch[1] : 'description'
+  return description
+}

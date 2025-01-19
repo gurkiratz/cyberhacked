@@ -11,6 +11,26 @@ const messages: Message[] = [
   {
     id: generateUUID(),
     role: 'user',
+    content: `Scenario: The Survey Scam\nDescription: You participate in an online survey that seems harmless. However, as the survey progresses, it starts asking for increasingly sensitive personal information.
+.
+`,
+  },
+  {
+    id: generateUUID(),
+    role: 'user',
+    content: `Scenario: The "Free" Software Offer\nDescription: You see an online advertisement offering a free download of a popular software program. However, you need to provide personal information or download a file to claim the offer.
+`,
+  },
+  {
+    id: generateUUID(),
+    role: 'user',
+    content: `Scenario: The "Help Desk" Support\nDescription: You encounter a pop-up message on your computer claiming to have detected a critical issue. It urges you to call a specific number for immediate assistance.
+
+`,
+  },
+  {
+    id: generateUUID(),
+    role: 'user',
     content: `Scenario: The Overly Helpful Tech Support\nDescription: The support unsolicited technical support, claiming to have detected a problem with the user's device, and then attempts to gain remote access or install malicious software.`,
   },
   {

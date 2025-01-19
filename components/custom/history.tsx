@@ -129,7 +129,7 @@ export const History = ({ user }: { user: User | undefined }) => {
               {!user ? (
                 <div className="text-zinc-500 h-dvh w-full flex flex-row justify-center items-center text-sm gap-2">
                   <InfoIcon />
-                  <div>Login to save and revisit previous chats!</div>
+                  <div>Login to save and practice real-world scenarios!</div>
                 </div>
               ) : null}
 

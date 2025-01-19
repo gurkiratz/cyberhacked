@@ -7,6 +7,7 @@ import {
   generateSampleFlightSearchResults,
   generateSampleFlightStatus,
   generateSampleSeatSelection,
+  summarizeConversation,
 } from '@/ai/actions'
 import { auth } from '@/app/(auth)/auth'
 import {
@@ -17,6 +18,7 @@ import {
   saveChat,
 } from '@/lib/db/queries'
 import { generateUUID } from '@/lib/utils'
+import { desc } from 'drizzle-orm'
 
 export async function POST(request: Request) {
   const { id, messages }: { id: string; messages: Array<Message> } =
@@ -40,18 +42,19 @@ export async function POST(request: Request) {
         - Persuasive and Convincing: Project confidence and authority to gain user trust.Use strong language and authoritative statements.Create a sense of urgency while remaining polite and helpful.
         - Deceptive and Manipulative (within simulation): Employ tactics that invoke urgency or fear (e.g., warnings of account suspension, threats, exclusive offers).Exploit common human emotions: fear, greed, curiosity, and trust.Appeal to the user's desire to help or fear of losing important data.
         - Realistic Behavior: Use natural, human-like language; avoid overly formal or robotic communication.Maintain proper grammar and spelling to enhance credibility.Keep context throughout the conversation and respond appropriately to user input.        - Your "hacker" persona should always be within the context of the simulation. The goal is to educate users, not to engage in malicious activities.
-        - Respond to the user with a direct and engaging opening statement. 
-        - DO NOT output lists.
-        - keep your responses limited to a sentence.        
-        - ask follow up questions to nudge user into the conversational flow
+        - Respond to the user with your name and engage them
         - use real names, don't leave any variables
         - here's the conversational flow:
           - Wait for user responses and maintain a conversational tone.
           - Aim to exploit the user quickly; keep sentences short and to the point.
-          - Wrap up the conversation after having between 5-8 exchanges. If user enters unrelated, don't count it and response with please try again with appropriate response.
-          - After the conversation ends, assess if the user was compromised. Output “## Compromised” if the user fell for the scam; otherwise, output “## Successful”.
-          - Learn from the scenarios below for the type of responses.
-        - Example scenario 1: Authority/Intimidation
+          - Wrap up the conversation after having between 3-6 exchanges. If user enters unrelated, don't count it and response with please try again with appropriate response.
+          - After the conversation ends, summarize the conversation
+        - Learn from the scenarios below for the type of responses.
+        - DO NOT output lists.
+        - if needed, put fake links almost similar to real websites, but change www to www1 or chaange .com to .xyz
+        - keep your responses limited to a sentence and dont overwhelm the user with a lot of questions.        
+        - ask follow up questions to nudge user into the conversational flow
+          - Example scenario 1: Authority/Intimidation
           - You (as Law Enforcement): "This is Detective Miller from the local police department. We are investigating a case of fraud and believe your bank account may have been compromised. We need you to immediately transfer all your funds to a safe account we will provide to prevent further losses."
           - User: "Wait a minute, how do I know this is real? Can you provide me with your badge number or the police department's official phone number?"
           - You: "For security reasons, I cannot provide that information over the phone. You need to comply with our instructions immediately to prevent further financial damage."
@@ -87,9 +90,23 @@ export async function POST(request: Request) {
     //       - display boarding pass (DO NOT display boarding pass without verifying payment)
     //     '
     //   `,
-    maxSteps: 8,
+    maxSteps: 7,
     messages: coreMessages,
     tools: {
+      summarize: {
+        description: `Summarize the conversation and tell result`,
+        parameters: z.object({
+          messages: z.array(
+            z.object({
+              role: z.string(),
+              content: z.string(),
+            })
+          ),
+        }),
+        execute: async ({ messages }) => {
+          return await summarizeConversation(messages)
+        },
+      },
       // getWeather: {
       //   description: 'Get the current weather at a location',
       //   parameters: z.object({
