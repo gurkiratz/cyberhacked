@@ -1,21 +1,22 @@
-<a href="https://chat.vercel.ai/">
-  <img alt="Next.js 14 and App Router-ready AI chatbot." src="app/(chat)/opengraph-image.png">
-  <h1 align="center">Next.js Gemini Chatbot</h1>
-</a>
+# Cyber Hacked
+[![Hackathon Winner](https://img.shields.io/badge/Hackathon%20Winner-blue)](https://dorahacks.io/buidl/21615)
+[![RBC Track](https://img.shields.io/badge/Best%20Sustainability%20AI%20Hack-orange)]([https://devpost.com/software/disasterboard](https://dorahacks.io/buidl/21615))
 
-<p align="center">
-  An Open-Source AI Chatbot Template Built With Next.js and the AI SDK by Vercel.
-</p>
+CyberHacked AI simulates social engineering attacks to teach you how to spot and avoid scams, phishing, and other online dangers.
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#model-providers"><strong>Model Providers</strong></a> ·
-  <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
-  <a href="#running-locally"><strong>Running locally</strong></a>
-</p>
-<br/>
+## Try it out
+https://cyberhacked.co
+
+![image](https://github.com/user-attachments/assets/0336f902-fd02-4c07-81f9-0ee32130bffd)
 
 ## Features
+
+- Simulated Social Engineering Scenarios: Engage in realistic conversations with a chatbot that simulates the behavior of a social engineer.
+- Interactive Learning: Practice identifying red flags, evaluating information critically, and developing strong security habits.
+- Performance Feedback: Receive personalized feedback on your performance, highlighting areas for improvement and providing actionable tips.
+- Educational Resources: Access links to helpful resources on cybersecurity topics, such as articles on common scams, tips for protecting your online privacy, and best practices for online safety.
+
+## How its built
 
 - [Next.js](https://nextjs.org) App Router
   - Advanced routing for seamless navigation and performance
