@@ -1,6 +1,6 @@
 # Cyber Hacked
 [![Hackathon Winner](https://img.shields.io/badge/Hackathon%20Winner-blue)](https://dorahacks.io/buidl/21615)
-[![RBC Track](https://img.shields.io/badge/Best%20Sustainability%20AI%20Hack-orange)]([https://devpost.com/software/disasterboard](https://dorahacks.io/buidl/21615))
+[![RBC Track](https://img.shields.io/badge/RBC%20Track-orange)](https://dorahacks.io/buidl/21615)
 
 CyberHacked AI simulates social engineering attacks to teach you how to spot and avoid scams, phishing, and other online dangers.
 
