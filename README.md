@@ -7,7 +7,12 @@ CyberHacked AI simulates social engineering attacks to teach you how to spot and
 ## Try it out
 https://cyberhacked.co
 
-![image](https://github.com/user-attachments/assets/0336f902-fd02-4c07-81f9-0ee32130bffd)
+## Demo Video
+[![Cyberhacked Demo Video](https://github.com/user-attachments/assets/0336f902-fd02-4c07-81f9-0ee32130bffd)](https://www.youtube.com/watch?v=4udn6EhEgVs)
+
+## Screenshots
+![image](https://github.com/user-attachments/assets/b8348435-c4c3-4ae9-aa81-c3ecf89dc925)
+![image](https://github.com/user-attachments/assets/abc88b4b-3d51-41b5-9bab-07364333d0d1)
 
 ## Features
 
